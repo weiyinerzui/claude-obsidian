@@ -258,6 +258,9 @@ def test_cli_page_no_match():
 
 
 def test_included_rejects_symlink():
+    if sys.platform == "win32":
+        print("SKIP symlink test on Windows (requires SeCreateSymbolicLinkPrivilege)")
+        return
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         wiki = tmp / "wiki"

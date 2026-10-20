@@ -1,0 +1,77 @@
+之前介绍了一个工具cli proxy api，可以用它来聚合多个渠道的大模型进行统一调用，但他支持的主要是国际上的模型厂家，国内的支持的少。
+
+今天再介绍一个开源工具9Router，它与cpa类似，本质上是一个AI路由器，能把多个模型统一接进一个OpenAI兼容的API入口，但支持的模型厂家比较多。
+
+项目地址在GitHub：https://github.com/decolua/9router
+
+它的核心能力是把来自不同平台的AI模型聚合起来，对外暴露一个标准的OpenAI兼容接口。
+
+你不需要在每个AI工具里单独配置各种API Key，只需要在9Router里集中管理，然后对外只提供一个地址和密钥，就能让所有工具用上多个模型。对于AI工具爱好者来说，这个路由器就像一个"中控台"，省去反复配置和切换的麻烦。
+
+部署9Router
+
+这里我使用本地Docker环境安装，在终端里执行：
+
+sudo docker run -d \
+  --name 9router \
+  --restart=unless-stopped \
+  -p 20128:20128 \
+  -v "$HOME/.9router:/app/data" \
+  -e DATA_DIR=/app/data \
+  -e JWT_SECRET='换成超长随机字符串' \
+  -e INITIAL_PASSWORD='换成强密码' \
+  -e HOSTNAME=0.0.0.0 \
+  -e REQUIRE_API_KEY=true \
+  decolua/9router:latest参数说明：
+
+- • --restart=unless-stopped：容器意外退出时自动重启，保证服务稳定性
+- • -p 20128:20128：把容器的20128端口映射到宿主机的20128端口
+- • -v "$HOME/.9router:/app/data"：数据持久化，配置不会丢失
+- • JWT_SECRET：换成你自己的超长随机字符串，用于会话安全，具体我也不知道有啥用
+- • INITIAL_PASSWORD：换成你自己的强密码，用于首次登录后台启动后，在系统上查看容器状态：
+
+sudo docker ps | grep 9router看到状态为Up就说明启动成功。
+
+9Router启动后，在同一局域网内的其他设备可以通过http://IP:20128访问管理后台。
+
+用刚才设置的INITIAL_PASSWORD登录，就能看到9Router的管理界面，在页面右上角可以将语言改为中文。
+
+添加提供商
+
+登录之后，默认情况下已经有一个免费提供商了:OpenCode Free。
+
+可以看到，它支持的提供商比cpa丰富多了。这里我们试着添加Qoder平台（阿里巴巴旗下的AI智能体编程平台）。
+
+操作步骤：提供商-Free Tier Providers中选择Qoder，会打开登录页面，按正常登录即可。
+
+登录成功后，你就能在9Router看到
+
+不过这里有个坏消息，Qoder已经无法再反代出模型免费使用了。
+
+我又测试了下很火的kiro ai，之前据说可以免费使用claud的模型，但现在实测已经不行了，就剩glm5和deepseek3.2等几个可用。
+
+好消息是OpenCode的deepseek-v4-flash-free依然可用，而且无需身份验证。
+
+对接QClaw使用
+
+现在最关键的一步来了——怎么把这个API提供给QClaw使用。
+
+首先，在9Router的端点页面创建一个新的API Key，保存好。
+
+然后在QClaw的模型选择中选自定义大模型：
+
+- • 接口地址：http://IP:20128/v1
+- • 模型名称：oc/deepseek-v4-flash-free（名称从提供商中复制）
+- • API Key：你刚才创建的那个配置完成后，QClaw就能通过9Router间接调用该模型了。
+
+9router的优势
+
+相较于CPA，9router除了支持的模型提供商较多外，还有一个组合功能值得专门一提。
+
+在页面左侧选择组合，新建一个组合，组合名称随意，我这边就取9rtmodel，然后添加模型，里面会列出你所有已添加的供应商的模型（并不一定可用，需要提前测试好），我这边就添加了kiro的deepseek3.2以及opencode的deepseek4flash做测试
+
+这样，就添加了一个组合，这个组合以9rtmodel的名称对外提供服务，内部则会智能切换，如果组合中某个模型挂了（或限额了），会继续用其他的模型提供服务，对使用者来说基本做到了无感切换。
+
+qclaw上调用跟之前是一样的，只是把模型名称换成组合名称。
+
+查看使用情况，可以看到它轮流调用了两个提供商的模型，这里为了演示，我开启了组合的轮询模型，正常情况下，组合会按你编排的顺序调用模型，直到某个模型无法使用了，再调用下一个。

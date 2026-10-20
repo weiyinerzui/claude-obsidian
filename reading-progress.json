@@ -1,0 +1,26 @@
+{
+  "Books/示例书库/Alice in Wonderland.epub": {
+    "pct": 0.04504504504504504,
+    "percent": 5,
+    "lastRead": 1789609789834,
+    "cfi": "epubcfi(/6/4!/4,/24/1:218,/34/1:373)"
+  },
+  "Books/示例书库/Meditations.epub": {
+    "pct": 0.002002002002002002,
+    "percent": 0,
+    "lastRead": 1789609792946,
+    "cfi": "epubcfi(/6/2!/4,/2,/38/1:13)"
+  },
+  "Books/示例书库/世说新语.epub": {
+    "pct": 0.009009009009009009,
+    "percent": 1,
+    "lastRead": 1789609795890,
+    "cfi": "epubcfi(/6/2!/4,/2,/10/1:407)"
+  },
+  "Books/示例书库/道德经.epub": {
+    "pct": 0.009009009009009009,
+    "percent": 1,
+    "lastRead": 1789609798186,
+    "cfi": "epubcfi(/6/2!/4,/2,/10/1:76)"
+  }
+}

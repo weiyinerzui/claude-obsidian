@@ -1,0 +1,351 @@
+﻿{
+    "version":  1,
+    "created":  "2026-04-23",
+    "description":  "Ingest delta tracker and address map for the claude-obsidian vault. Do not hand-edit; wiki-ingest maintains this.",
+    "sources":  {
+                    ".raw/articles/building-effective-agents-2025-01-06.md":  {
+                                                                                  "hash":  "manual-ingest",
+                                                                                  "ingested_at":  "2026-06-09",
+                                                                                  "pages_created":  [
+                                                                                                        "wiki/sources/Building Effective Agents.md",
+                                                                                                        "wiki/entities/Anthropic.md",
+                                                                                                        "wiki/concepts/Augmented LLM.md",
+                                                                                                        "wiki/concepts/Prompt Chaining.md",
+                                                                                                        "wiki/concepts/Routing (LLM Agent).md",
+                                                                                                        "wiki/concepts/Parallelization (LLM).md",
+                                                                                                        "wiki/concepts/Orchestrator-Workers.md",
+                                                                                                        "wiki/concepts/Evaluator-Optimizer.md",
+                                                                                                        "wiki/concepts/Agent-Computer Interface (ACI).md"
+                                                                                                    ],
+                                                                                  "pages_updated":  [
+                                                                                                        "wiki/index.md",
+                                                                                                        "wiki/hot.md",
+                                                                                                        "wiki/log.md",
+                                                                                                        "wiki/concepts/_index.md",
+                                                                                                        "wiki/entities/_index.md",
+                                                                                                        "wiki/sources/_index.md"
+                                                                                                    ]
+                                                                              },
+                    ".raw/pdfs/gaoshou-heixiang-2-jiyi-2026-05-21.pdf":  {
+                                                                             "hash":  "e959adedbc636fff4db01fcd32a43cbdff4a56e33021fe10239fcb03c1e92f32",
+                                                                             "ingested_at":  "2026-05-21",
+                                                                             "pages_created":  [
+                                                                                                   "wiki/sources/高手的黑箱2-记忆.md",
+                                                                                                   "wiki/concepts/记忆的辩证法.md",
+                                                                                                   "wiki/concepts/预测处理理论.md",
+                                                                                                   "wiki/concepts/最小记忆策略.md",
+                                                                                                   "wiki/concepts/AI时代知识管理术.md",
+                                                                                                   "wiki/concepts/记忆三原则.md",
+                                                                                                   "wiki/entities/汤质看本质.md"
+                                                                                               ],
+                                                                             "pages_updated":  [
+                                                                                                   "wiki/index.md",
+                                                                                                   "wiki/hot.md",
+                                                                                                   "wiki/log.md",
+                                                                                                   "wiki/concepts/_index.md",
+                                                                                                   "wiki/entities/_index.md",
+                                                                                                   "wiki/sources/_index.md"
+                                                                                               ]
+                                                                         },
+                    ".raw/pdfs/gaoshou-heixiang-3-lijie-2026-05-22.pdf":  {
+                                                                              "hash":  "5fa669ce2edfbb264a93bb494f0dc8a371e6b648cdbd706912898c96bc8ff526",
+                                                                              "ingested_at":  "2026-05-22",
+                                                                              "pages_created":  [
+                                                                                                    "wiki/sources/高手的黑箱3-理解.md",
+                                                                                                    "wiki/concepts/深度理解.md",
+                                                                                                    "wiki/concepts/认知负荷理论.md",
+                                                                                                    "wiki/concepts/元素交互性.md",
+                                                                                                    "wiki/concepts/分割策略.md",
+                                                                                                    "wiki/concepts/交替实例.md",
+                                                                                                    "wiki/concepts/概念地图.md",
+                                                                                                    "wiki/concepts/抽象思维.md"
+                                                                                                ],
+                                                                              "pages_updated":  [
+                                                                                                    "wiki/index.md",
+                                                                                                    "wiki/hot.md",
+                                                                                                    "wiki/log.md",
+                                                                                                    "wiki/concepts/_index.md",
+                                                                                                    "wiki/sources/_index.md",
+                                                                                                    "wiki/entities/汤质看本质.md"
+                                                                                                ]
+                                                                          },
+                    ".raw/pdfs/gaoshou-heixiang-4-yingyong-2026-05-22.pdf":  {
+                                                                                 "hash":  "4907c110ad3a06f206ce377fdb2d5d295533b104ff19552fe69f6c32904e6601",
+                                                                                 "ingested_at":  "2026-05-22",
+                                                                                 "pages_created":  [
+                                                                                                       "wiki/sources/高手的黑箱4-应用.md",
+                                                                                                       "wiki/concepts/知识应用.md",
+                                                                                                       "wiki/concepts/结构化知识.md",
+                                                                                                       "wiki/concepts/菜谱型知识.md",
+                                                                                                       "wiki/concepts/知行显隐四象限.md",
+                                                                                                       "wiki/concepts/元认知知识.md",
+                                                                                                       "wiki/concepts/WOOP模型.md",
+                                                                                                       "wiki/concepts/GROW模型.md",
+                                                                                                       "wiki/concepts/对比反馈练习.md"
+                                                                                                   ],
+                                                                                 "pages_updated":  [
+                                                                                                       "wiki/index.md",
+                                                                                                       "wiki/hot.md",
+                                                                                                       "wiki/log.md",
+                                                                                                       "wiki/concepts/_index.md",
+                                                                                                       "wiki/sources/_index.md",
+                                                                                                       "wiki/entities/汤质看本质.md"
+                                                                                                   ]
+                                                                             },
+                    ".raw/pdfs/gaoshou-heixiang-5-fenxi-2026-05-22.pdf":  {
+                                                                              "hash":  "1f535055358bf069601efcdd28128f892f77d6165c0c3c5f968cda833a0d46e1",
+                                                                              "ingested_at":  "2026-05-22",
+                                                                              "pages_created":  [
+                                                                                                    "wiki/sources/高手的黑箱5-分析.md",
+                                                                                                    "wiki/concepts/分析能力.md",
+                                                                                                    "wiki/concepts/质性分析.md",
+                                                                                                    "wiki/concepts/扎根理论.md",
+                                                                                                    "wiki/concepts/现象学分析.md",
+                                                                                                    "wiki/concepts/本质变更法.md",
+                                                                                                    "wiki/concepts/辩证逆转.md",
+                                                                                                    "wiki/concepts/差异发问.md",
+                                                                                                    "wiki/concepts/问题意识.md"
+                                                                                                ],
+                                                                              "pages_updated":  [
+                                                                                                    "wiki/index.md",
+                                                                                                    "wiki/hot.md",
+                                                                                                    "wiki/log.md",
+                                                                                                    "wiki/concepts/_index.md",
+                                                                                                    "wiki/sources/_index.md",
+                                                                                                    "wiki/entities/汤质看本质.md"
+                                                                                                ]
+                                                                          },
+                    ".raw/pdfs/gaoshou-heixiang-6-pingjia-2026-05-22.pdf":  {
+                                                                                "hash":  "5eb3755f804d2d219bf28eff2dc809e2e0622664dc6bb59e716a5863ad5863c3",
+                                                                                "ingested_at":  "2026-05-22",
+                                                                                "pages_created":  [
+                                                                                                      "wiki/sources/高手的黑箱6-评价.md",
+                                                                                                      "wiki/concepts/评价能力.md",
+                                                                                                      "wiki/concepts/评价即权力.md",
+                                                                                                      "wiki/concepts/评价坐标系.md",
+                                                                                                      "wiki/concepts/品味判断力.md",
+                                                                                                      "wiki/concepts/形神二层作品模型.md",
+                                                                                                      "wiki/concepts/三一一原则.md",
+                                                                                                      "wiki/concepts/解释的辩证.md",
+                                                                                                      "wiki/concepts/真诚金线.md",
+                                                                                                      "wiki/concepts/写作优化Prompt.md"
+                                                                                                  ],
+                                                                                "pages_updated":  [
+                                                                                                      "wiki/index.md",
+                                                                                                      "wiki/hot.md",
+                                                                                                      "wiki/log.md",
+                                                                                                      "wiki/concepts/_index.md",
+                                                                                                      "wiki/sources/_index.md",
+                                                                                                      "wiki/entities/汤质看本质.md"
+                                                                                                  ]
+                                                                            },
+                    ".raw/pdfs/gaoshou-heixiang-7-chuangzuo-2026-05-22.pdf":  {
+                                                                                  "hash":  "0b8ff6f33f99a34dfe26b1d7ea171ad14b7f48638387403484db9cc2c5f6e4d5",
+                                                                                  "ingested_at":  "2026-05-22",
+                                                                                  "pages_created":  [
+                                                                                                        "wiki/sources/高手的黑箱7-创作.md",
+                                                                                                        "wiki/concepts/创作能力.md",
+                                                                                                        "wiki/concepts/人的事物化.md",
+                                                                                                        "wiki/concepts/创作模式.md",
+                                                                                                        "wiki/concepts/深度创作.md",
+                                                                                                        "wiki/concepts/涟漪性与绵延性.md",
+                                                                                                        "wiki/concepts/人机共创工作流.md",
+                                                                                                        "wiki/concepts/黑箱化工作流.md",
+                                                                                                        "wiki/concepts/智能体工作流.md",
+                                                                                                        "wiki/concepts/认知成长微笑曲线.md",
+                                                                                                        "wiki/concepts/生活-创作-商业模式.md"
+                                                                                                    ],
+                                                                                  "pages_updated":  [
+                                                                                                        "wiki/index.md",
+                                                                                                        "wiki/hot.md",
+                                                                                                        "wiki/log.md",
+                                                                                                        "wiki/concepts/_index.md",
+                                                                                                        "wiki/sources/_index.md",
+                                                                                                        "wiki/entities/汤质看本质.md"
+                                                                                                    ]
+                                                                              },
+                    ".raw/articles/code-as-a-medium-for-storytelling-2026-07-02.md":  {
+                                                                                          "hash":  "manual-ingest",
+                                                                                          "ingested_at":  "2026-07-02",
+                                                                                          "pages_created":  [
+                                                                                                                "wiki/sources/Code as a Medium for Storytelling.md",
+                                                                                                                "wiki/entities/ljg-learn.md",
+                                                                                                                "wiki/concepts/Vibe Coding.md",
+                                                                                                                "wiki/concepts/Design MD.md",
+                                                                                                                "wiki/concepts/Playgrounds (LLM Design).md",
+                                                                                                                "wiki/concepts/Personal Ad Network.md",
+                                                                                                                "wiki/concepts/Content Remixing.md",
+                                                                                                                "wiki/concepts/Build to Learn.md",
+                                                                                                                "wiki/concepts/Opinionated Products.md"
+                                                                                                            ],
+                                                                                          "pages_updated":  [
+                                                                                                                "wiki/index.md",
+                                                                                                                "wiki/hot.md",
+                                                                                                                "wiki/log.md",
+                                                                                                                "wiki/concepts/_index.md",
+                                                                                                                "wiki/entities/_index.md",
+                                                                                                                "wiki/sources/_index.md"
+                                                                                                            ]
+                                                                                      },
+                    ".raw/quotes/fish-bones-thorns-2026-08-06.md":  {
+                                                                        "hash":  "3c56ec274031a846218ddbc60bde9bc4",
+                                                                        "ingested_at":  "2026-08-06",
+                                                                        "pages_created":  [
+                                                                                              "wiki/sources/鱼骨与刺.md",
+                                                                                              "wiki/concepts/防御性结构.md"
+                                                                                          ],
+                                                                        "pages_updated":  [
+                                                                                              "wiki/index.md",
+                                                                                              "wiki/hot.md",
+                                                                                              "wiki/log.md",
+                                                                                              "wiki/concepts/_index.md",
+                                                                                              "wiki/sources/_index.md"
+                                                                                          ]
+                                                                    },
+                    ".raw/books/congming-de-yueduzhe-2026-08-06.md":  {
+                                                                          "hash":  "8fc77f978bb01640f5bea6177514c9acebd87b5571f640f70095c5f59c93b18b",
+                                                                          "ingested_at":  "2026-08-06",
+                                                                          "pages_created":  [
+                                                                                                "wiki/sources/聪明的阅读者.md",
+                                                                                                "wiki/entities/阳志平.md",
+                                                                                                "wiki/concepts/系统阅读法.md",
+                                                                                                "wiki/concepts/三类文本阅读模型.md",
+                                                                                                "wiki/concepts/文本细读.md",
+                                                                                                "wiki/concepts/抽样阅读.md",
+                                                                                                "wiki/concepts/结构阅读.md",
+                                                                                                "wiki/concepts/主题阅读.md",
+                                                                                                "wiki/concepts/卡片大法.md",
+                                                                                                "wiki/concepts/阅读选书系统.md"
+                                                                                            ],
+                                                                          "pages_updated":  [
+                                                                                                "wiki/index.md",
+                                                                                                "wiki/hot.md",
+                                                                                                "wiki/log.md",
+                                                                                                "wiki/concepts/_index.md",
+                                                                                                "wiki/entities/_index.md",
+                                                                                                "wiki/sources/_index.md"
+                                                                                            ]
+                                                                      },
+                    ".raw/transcripts/mengyan-lijigang-ren-heyi-zichu-2026-08-06.txt":  {
+                                                                                            "hash":  "f78c2a0d60c5eee3c86e747ec943cf10d7db41e06e070909db2dccffb841c024",
+                                                                                            "ingested_at":  "2026-08-06",
+                                                                                            "pages_created":  [
+                                                                                                                  "wiki/sources/孟岩对话李继刚：人何以自处.md",
+                                                                                                                  "wiki/entities/李继刚.md",
+                                                                                                                  "wiki/entities/孟岩.md",
+                                                                                                                  "wiki/entities/有知有行.md",
+                                                                                                                  "wiki/concepts/取景框思维.md",
+                                                                                                                  "wiki/concepts/AI时代人何以自处.md",
+                                                                                                                  "wiki/concepts/干湿状态.md",
+                                                                                                                  "wiki/concepts/井而非网.md",
+                                                                                                                  "wiki/concepts/水火教育.md",
+                                                                                                                  "wiki/concepts/奖励函数与损失函数.md"
+                                                                                                              ],
+                                                                                            "pages_updated":  [
+                                                                                                                  "wiki/index.md",
+                                                                                                                  "wiki/hot.md",
+                                                                                                                  "wiki/log.md",
+                                                                                                                  "wiki/concepts/_index.md",
+                                                                                                                  "wiki/entities/_index.md",
+                                                                                                                  "wiki/sources/_index.md"
+                                                                                                              ]
+                                                                                        }
+                },
+    "address_map":  {
+                        "wiki/concepts/DragonScale Memory.md":  "c-000001",
+                        "wiki/sources/高手的黑箱2-记忆.md":  "c-000015",
+                        "wiki/concepts/记忆的辩证法.md":  "c-000016",
+                        "wiki/concepts/预测处理理论.md":  "c-000017",
+                        "wiki/concepts/最小记忆策略.md":  "c-000018",
+                        "wiki/concepts/AI时代知识管理术.md":  "c-000019",
+                        "wiki/concepts/记忆三原则.md":  "c-000020",
+                        "wiki/entities/汤质看本质.md":  "c-000021",
+                        "wiki/sources/高手的黑箱3-理解.md":  "c-000022",
+                        "wiki/concepts/深度理解.md":  "c-000023",
+                        "wiki/concepts/认知负荷理论.md":  "c-000024",
+                        "wiki/concepts/元素交互性.md":  "c-000025",
+                        "wiki/concepts/分割策略.md":  "c-000026",
+                        "wiki/concepts/交替实例.md":  "c-000027",
+                        "wiki/concepts/概念地图.md":  "c-000028",
+                        "wiki/concepts/抽象思维.md":  "c-000029",
+                        "wiki/sources/高手的黑箱4-应用.md":  "c-000030",
+                        "wiki/concepts/知识应用.md":  "c-000031",
+                        "wiki/concepts/结构化知识.md":  "c-000032",
+                        "wiki/concepts/菜谱型知识.md":  "c-000033",
+                        "wiki/concepts/知行显隐四象限.md":  "c-000034",
+                        "wiki/concepts/元认知知识.md":  "c-000035",
+                        "wiki/concepts/WOOP模型.md":  "c-000036",
+                        "wiki/concepts/GROW模型.md":  "c-000037",
+                        "wiki/concepts/对比反馈练习.md":  "c-000038",
+                        "wiki/sources/高手的黑箱5-分析.md":  "c-000039",
+                        "wiki/concepts/分析能力.md":  "c-000040",
+                        "wiki/concepts/质性分析.md":  "c-000041",
+                        "wiki/concepts/扎根理论.md":  "c-000042",
+                        "wiki/concepts/现象学分析.md":  "c-000043",
+                        "wiki/concepts/本质变更法.md":  "c-000044",
+                        "wiki/concepts/辩证逆转.md":  "c-000045",
+                        "wiki/concepts/差异发问.md":  "c-000046",
+                        "wiki/concepts/问题意识.md":  "c-000047",
+                        "wiki/sources/高手的黑箱6-评价.md":  "c-000048",
+                        "wiki/concepts/评价能力.md":  "c-000049",
+                        "wiki/concepts/评价即权力.md":  "c-000050",
+                        "wiki/concepts/评价坐标系.md":  "c-000051",
+                        "wiki/concepts/品味判断力.md":  "c-000052",
+                        "wiki/concepts/形神二层作品模型.md":  "c-000053",
+                        "wiki/concepts/三一一原则.md":  "c-000054",
+                        "wiki/concepts/解释的辩证.md":  "c-000055",
+                        "wiki/concepts/真诚金线.md":  "c-000056",
+                        "wiki/concepts/写作优化Prompt.md":  "c-000057",
+                        "wiki/sources/高手的黑箱7-创作.md":  "c-000058",
+                        "wiki/concepts/创作能力.md":  "c-000059",
+                        "wiki/concepts/人的事物化.md":  "c-000060",
+                        "wiki/concepts/创作模式.md":  "c-000061",
+                        "wiki/concepts/深度创作.md":  "c-000062",
+                        "wiki/concepts/涟漪性与绵延性.md":  "c-000063",
+                        "wiki/concepts/人机共创工作流.md":  "c-000064",
+                        "wiki/concepts/黑箱化工作流.md":  "c-000065",
+                        "wiki/concepts/智能体工作流.md":  "c-000066",
+                        "wiki/concepts/认知成长微笑曲线.md":  "c-000067",
+                        "wiki/concepts/生活-创作-商业模式.md":  "c-000068",
+                        "wiki/entities/Anthropic.md":  "c-000069",
+                        "wiki/concepts/Augmented LLM.md":  "c-000070",
+                        "wiki/concepts/Prompt Chaining.md":  "c-000071",
+                        "wiki/concepts/Routing (LLM Agent).md":  "c-000072",
+                        "wiki/concepts/Parallelization (LLM).md":  "c-000073",
+                        "wiki/concepts/Orchestrator-Workers.md":  "c-000074",
+                        "wiki/concepts/Evaluator-Optimizer.md":  "c-000075",
+                        "wiki/sources/Building Effective Agents.md":  "c-000076",
+                        "wiki/concepts/Agent-Computer Interface (ACI).md":  "c-000077",
+                        "wiki/sources/Code as a Medium for Storytelling.md":  "c-000078",
+                        "wiki/entities/ljg-learn.md":  "c-000079",
+                        "wiki/concepts/Vibe Coding.md":  "c-000080",
+                        "wiki/concepts/Design MD.md":  "c-000081",
+                        "wiki/concepts/Playgrounds (LLM Design).md":  "c-000082",
+                        "wiki/concepts/Personal Ad Network.md":  "c-000083",
+                        "wiki/concepts/Content Remixing.md":  "c-000084",
+                        "wiki/concepts/Build to Learn.md":  "c-000085",
+                        "wiki/concepts/Opinionated Products.md":  "c-000086",
+                        "wiki/sources/鱼骨与刺.md":  "c-000087",
+                        "wiki/concepts/防御性结构.md":  "c-000088",
+                        "wiki/concepts/主题阅读.md":  "c-000096",
+                        "wiki/sources/聪明的阅读者.md":  "c-000089",
+                        "wiki/concepts/卡片大法.md":  "c-000097",
+                        "wiki/concepts/结构阅读.md":  "c-000095",
+                        "wiki/concepts/系统阅读法.md":  "c-000091",
+                        "wiki/concepts/抽样阅读.md":  "c-000094",
+                        "wiki/entities/阳志平.md":  "c-000090",
+                        "wiki/concepts/三类文本阅读模型.md":  "c-000092",
+                        "wiki/concepts/阅读选书系统.md":  "c-000098",
+                        "wiki/concepts/文本细读.md":  "c-000093",
+                        "wiki/entities/孟岩.md":  "c-000101",
+                        "wiki/entities/有知有行.md":  "c-000102",
+                        "wiki/concepts/取景框思维.md":  "c-000103",
+                        "wiki/concepts/奖励函数与损失函数.md":  "c-000108",
+                        "wiki/concepts/水火教育.md":  "c-000107",
+                        "wiki/concepts/干湿状态.md":  "c-000105",
+                        "wiki/entities/李继刚.md":  "c-000100",
+                        "wiki/concepts/AI时代人何以自处.md":  "c-000104",
+                        "wiki/concepts/井而非网.md":  "c-000106",
+                        "wiki/sources/孟岩对话李继刚：人何以自处.md":  "c-000099"
+                    }
+}
