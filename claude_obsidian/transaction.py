@@ -1689,14 +1689,20 @@ class MutationLock:
         host = owner.get("host")
         if not isinstance(started, (int, float)) or not isinstance(pid, int):
             return False
+        same_host = isinstance(host, str) and host == socket.gethostname()
+        alive = _process_alive(pid) if same_host else None
+        if self.force_stale_lock and same_host and alive is False:
+            # An explicit override may reap a confirmed-dead same-host owner
+            # immediately: age alone must never be what stands between an
+            # operator and a lock whose owner is provably gone on this host.
+            return True
         age = now - float(started)
         if age <= self.stale_after:
             return False
         if self.force_stale_lock:
             return True
-        if not isinstance(host, str) or host != socket.gethostname():
+        if not same_host:
             return False
-        alive = _process_alive(pid)
         return alive is False
 
     def duplicate_parent_fd(self) -> int:
@@ -2141,6 +2147,9 @@ def _bounded_runtime_names(directory_fd: int, *, limit: int, label: str) -> list
     return sorted(names)
 
 
+_RUNTIME_READ_STABILITY_DELAY = 0.02
+
+
 def _read_runtime_bytes_at(
     directory_fd: int,
     name: str,
@@ -2177,25 +2186,48 @@ def _read_runtime_bytes_at(
             raise error_type(
                 "CORRUPT_RUNTIME_STATE", f"{label} changed before it was read"
             )
-        chunks: list[bytes] = []
-        total = 0
-        while True:
-            block = os.read(descriptor, min(1024 * 1024, limit + 1 - total))
-            if not block:
-                break
-            chunks.append(block)
-            total += len(block)
-            if total > limit:
+
+        def _read_current() -> tuple[bytes, os.stat_result]:
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            chunks: list[bytes] = []
+            total = 0
+            while True:
+                block = os.read(descriptor, min(1024 * 1024, limit + 1 - total))
+                if not block:
+                    break
+                chunks.append(block)
+                total += len(block)
+                if total > limit:
+                    raise error_type(
+                        "CORRUPT_RUNTIME_STATE", f"{label} exceeds its size limit"
+                    )
+            return b"".join(chunks), os.fstat(descriptor)
+
+        def _require_stable_identity(observed: os.stat_result) -> None:
+            rigid = ("st_dev", "st_ino", "st_size", "st_mode")
+            if any(
+                getattr(opened, field) != getattr(observed, field) for field in rigid
+            ):
                 raise error_type(
-                    "CORRUPT_RUNTIME_STATE", f"{label} exceeds its size limit"
+                    "CORRUPT_RUNTIME_STATE", f"{label} changed while it was read"
                 )
-        after = os.fstat(descriptor)
-        stable = ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_mode")
-        if any(getattr(opened, field) != getattr(after, field) for field in stable):
+
+        raw, after = _read_current()
+        _require_stable_identity(after)
+        if after.st_mtime_ns == opened.st_mtime_ns:
+            return raw
+        # A metadata-only touch (a sync client refreshing timestamps) moves the
+        # mtime without moving a byte. Re-read once and accept only if the bytes
+        # are identical to the first read; any difference means the content
+        # changed while it was read and the read fails closed.
+        time.sleep(_RUNTIME_READ_STABILITY_DELAY)
+        confirmation, confirmed = _read_current()
+        _require_stable_identity(confirmed)
+        if confirmation != raw:
             raise error_type(
                 "CORRUPT_RUNTIME_STATE", f"{label} changed while it was read"
             )
-        return b"".join(chunks)
+        return raw
     except TransactionError:
         raise
     except OSError as exc:
@@ -2311,11 +2343,21 @@ def _remove_pinned_runtime_tree_at(
         )
     if remaining is None:
         remaining = [MAX_TRANSACTION_RUNTIME_TREE_ENTRIES]
-    child_names = _bounded_runtime_names(
-        directory_fd,
-        limit=remaining[0],
-        label=f"transaction runtime {component}",
-    )
+    scan_fd = _open_runtime_directory_at(parent_fd, component, create=False)
+    try:
+        pinned = os.fstat(directory_fd)
+        scanned = os.fstat(scan_fd)
+        if (pinned.st_dev, pinned.st_ino) != (scanned.st_dev, scanned.st_ino):
+            raise _LockIdentityChanged(
+                f"runtime directory changed before enumeration: {component}"
+            )
+        child_names = _bounded_runtime_names(
+            scan_fd,
+            limit=remaining[0],
+            label=f"transaction runtime {component}",
+        )
+    finally:
+        os.close(scan_fd)
     remaining[0] -= len(child_names)
     for child_name in child_names:
         metadata = os.stat(child_name, dir_fd=directory_fd, follow_symlinks=False)
@@ -3329,6 +3371,12 @@ def _prepare_writes(
                 f"expected hash for {normalized_path} must be SHA-256 or null",
             )
         normalized_expected[normalized_path] = digest
+    _assert_read_preconditions(
+        vault_root,
+        bundle,
+        root_fd=root_fd,
+        meta_fd=meta_fd,
+    )
     seen: set[str] = set()
     seen_casefold: dict[str, str] = {}
     prepared: list[PreparedWrite] = []
@@ -3501,6 +3549,75 @@ def _prepare_writes(
     _validate_operation_bundle_scope(str(bundle.get("operation_type")), prepared)
     _validate_provenance_writes(vault_root, prepared, root_fd=root_fd, meta_fd=meta_fd)
     return prepared
+
+
+def _assert_read_preconditions(
+    vault_root: Path,
+    bundle: Mapping[str, Any],
+    *,
+    root_fd: int | None = None,
+    meta_fd: int | None = None,
+) -> None:
+    """Require non-write inputs to retain their reviewed file state."""
+
+    raw = bundle.get("read_preconditions", {})
+    if not isinstance(raw, dict):
+        raise TransactionValidationError(
+            "INVALID_READ_PRECONDITIONS",
+            "read_preconditions must be an object",
+        )
+    # Read preconditions do not create backups or recovery journal entries, so
+    # the write-cardinality limit is not their safety envelope. `_load_bundle`
+    # already bounds the complete canonical bundle bytes, and path validation
+    # bounds every individual key. Reusing the write limit here would reject a
+    # previously valid migration solely because it observes many source files.
+    normalized: dict[str, str | None] = {}
+    casefolded: dict[str, str] = {}
+    for raw_path, digest in raw.items():
+        path = (
+            _normalize_vault_path(raw_path)
+            if root_fd is not None
+            else _safe_vault_path(vault_root, raw_path)[0]
+        )
+        folded = _portable_name_key(path)
+        prior = casefolded.get(folded)
+        if prior is not None and prior != path:
+            raise TransactionValidationError(
+                "CASEFOLD_PATH_COLLISION",
+                f"read preconditions contain case-colliding paths: {prior}, {path}",
+            )
+        casefolded[folded] = path
+        if digest is not None and (
+            not isinstance(digest, str)
+            or len(digest) != 64
+            or digest != digest.lower()
+            or any(character not in "0123456789abcdef" for character in digest)
+        ):
+            raise TransactionValidationError(
+                "INVALID_READ_PRECONDITION",
+                f"read precondition for {path} must be SHA-256 or null",
+            )
+        normalized[path] = digest
+    for path, expected in normalized.items():
+        try:
+            observed = _safe_hash(
+                vault_root,
+                path,
+                root_fd=root_fd,
+                meta_fd=meta_fd,
+            )
+        except TransactionValidationError:
+            raise
+        except OSError as exc:
+            raise TransactionValidationError(
+                "UNSAFE_READ_PRECONDITION",
+                f"cannot inspect read precondition {path}: {exc}",
+            ) from exc
+        if observed != expected:
+            raise TransactionConflict(
+                "READ_PRECONDITION_MISMATCH",
+                f"{path} changed since the operation was drafted",
+            )
 
 
 def _validate_provenance_writes(
@@ -4591,6 +4708,12 @@ def apply_bundle(
                 _assert_transaction_namespaces(mutation_lock, runtime, operation)
 
                 try:
+                    _assert_read_preconditions(
+                        vault,
+                        bundle,
+                        root_fd=runtime.root_fd,
+                        meta_fd=runtime.meta_fd,
+                    )
                     for index, write in enumerate(prepared, start=1):
                         _assert_transaction_namespaces(
                             mutation_lock, runtime, operation
